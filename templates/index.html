@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Search</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Pony/Furry Tags finder</h1>
+        <form action="" method="post">
+            <div class="form-group">
+                <label for="search_query">Search query:</label>
+                <input type="text" id="search_query" name="search_query" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="num_images">Number of images:</label>
+                <select id="num_images" name="num_images" class="form-control">
+                    {% for i in range(1, 16) %}
+                    <option value="{{ i }}">{{ i }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+        {% if images %}
+        <h2>Results:</h2>
+        <div class="row">
+            {% for image in images %}
+            <div class="col-md-3">
+                <img src="{{ image.url }}" alt="Image from {{ image.site }}" class="img-fluid">
+                <button class="download-button" data-url="{{ image.url }}">Download</button>
+                <div class="tag-container" style="display: none;">
+                    <h3>Tags:</h3>
+                    <ul>
+                        {% for tag in image.tags %}
+                            <li>{{ tag }}</li>
+                        {% endfor %}
+                    </ul>
+                    <a href="{{ image.source }}" target="_blank">Source</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    <script>
+                document.addEventListener('DOMContentLoaded', function() {
+            var downloadButtons = document.getElementsByClassName('download-button');
+            for (var i = 0; i < downloadButtons.length; i++) {
+                downloadButtons[i].addEventListener('click', function() {
+                    var url = this.getAttribute('data-url');
+                    var link = document.createElement('a');
+                    link.href = url;
+                    link.download = url.split('/').pop();
+                    link.style.display = 'none';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                });
+            }
+
+            var imageContainers = document.getElementsByClassName('image-container');
+            for (var i = 0; i < imageContainers.length; i++) {
+                imageContainers[i].addEventListener('mouseover', function() {
+                    var tagContainer = this.getElementsByClassName('tag-container')[0];
+                    tagContainer.style.display = 'block';
+                });
+                imageContainers[i].addEventListener('mouseout', function() {
+                    var tagContainer = this.getElementsByClassName('tag-container')[0];
+                    tagContainer.style.display = 'none';
+                });
+            }
+        });
+    </script>
+</body>
+</html>
