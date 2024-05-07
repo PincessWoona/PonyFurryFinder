@@ -6,6 +6,7 @@
     <title>Image Search</title>
     <link rel="stylesheet" href="/static/style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
     <div class="container">
@@ -46,6 +47,18 @@
         </div>
         {% endif %}
     </div>
+    <footer class="footer">
+        <div class="container">
+            <p class="text-muted">
+                &copy; 2024 PonyFurryFinder by Woona |
+                <a href="https://github.com/PincessWoona/PonyFurryFinder" target="_blank">
+                    <i class="fab fa-github"></i> View on GitHub
+                </a>
+            </p>
+        </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script>
                 document.addEventListener('DOMContentLoaded', function() {
             var downloadButtons = document.getElementsByClassName('download-button');
@@ -74,6 +87,32 @@
                 });
             }
         });
+        document.addEventListener('DOMContentLoaded', function() {
+    var homeLink = document.getElementById('home-link');
+    var aboutLink = document.getElementById('about-link');
+
+    homeLink.addEventListener('click', function(event) {
+        event.preventDefault();
+        loadPage('/');
+    });
+
+    aboutLink.addEventListener('click', function(event) {
+        event.preventDefault();
+        loadPage('/about');
+    });
+
+    function loadPage(url) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                var content = document.getElementById('content');
+                content.innerHTML = xhr.responseText;
+            }
+        };
+        xhr.send();
+    }
+});
     </script>
 </body>
 </html>

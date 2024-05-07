@@ -16,6 +16,10 @@ def index():
         return render_template("index.html", images=images)
     return render_template("index.html")
 
+@app.route("/about", methods=["GET", "POST"])
+def about():
+    return render_template("about.html")
+
 def search_images(search_query, num_images):
     images = []
     # Derpibooru API
